@@ -24,6 +24,7 @@ allprojects {
 
 ext {
     dagger2Version = "2.13"
+    archVersion = "1.0.0"
 }
 
 task clean(type: Delete) {
