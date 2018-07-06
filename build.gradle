@@ -24,7 +24,9 @@ allprojects {
 
 ext {
     dagger2Version = "2.13"
-    archVersion = "1.0.0"
+    archRoomVersion = "1.0.0"
+    archLifecycleVersion = "1.1.0"
+    retrofitVersion = "2.1.0"
 }
 
 task clean(type: Delete) {
