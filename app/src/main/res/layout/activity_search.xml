@@ -6,13 +6,83 @@
     android:layout_height="match_parent"
     tools:context="com.example.titas.placefinder.view.SearchActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/search_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_fifteen"
+        android:background="@color/dark_grey">
+
+        <EditText
+            android:id="@+id/search_bar"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/padding_forty"
+            android:layout_weight="2"
+            android:background="@drawable/search_bar_bg"
+            android:padding="@dimen/padding_five"
+            android:layout_marginRight="@dimen/padding_ten"
+            android:elevation="@dimen/padding_five"
+            android:fontFamily="@font/lato_regular"
+            android:textSize="@dimen/text_size_sixteen"
+            android:hint="What are you looking for?"
+            android:drawableLeft="@drawable/search_icn_layer"
+            android:drawablePadding="@dimen/padding_five"/>
+
+        <TextView
+            android:id="@+id/btn_search"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/padding_forty"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/search_btn_bg"
+            android:elevation="@dimen/padding_five"
+            android:textColor="@color/white"
+            android:fontFamily="@font/lato_bold"
+            tools:text="Search"
+            android:textSize="@dimen/text_size_twenty"
+            android:gravity="center"
+            />
+
+    </LinearLayout>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searches_list_container"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/search_container">
+
+        <TextView
+            android:id="@+id/recent_searches_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dark_grey"
+            android:fontFamily="@font/lato_bold"
+            android:textSize="@dimen/text_size_eighteen"
+            android:text="You recently searched for:"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="@dimen/padding_fifteen"/>
+
+        <View
+            android:id="@+id/searches_title_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recent_searches_title"
+            android:layout_marginTop="@dimen/padding_fifteen"
+            android:background="@color/faded_grey"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/searches_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searches_title_divider"
+            android:layout_marginTop="@dimen/padding_fifteen"/>
+    </android.support.constraint.ConstraintLayout>
+
 
 </android.support.constraint.ConstraintLayout>
