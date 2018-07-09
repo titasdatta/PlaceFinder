@@ -1,14 +1,11 @@
 package com.example.titas.placefinder.di.modules
 
 import android.app.Application
-import android.arch.lifecycle.ViewModelProvider
 import android.arch.persistence.room.Room
 import com.example.titas.placefinder.repository.dao.SearchDAO
 import com.example.titas.placefinder.repository.dao.SearchDatabase
-import com.example.titas.placefinder.viewmodel.SearchViewModelFactory
 import dagger.Module
 import dagger.Provides
-import java.util.concurrent.Executor
 import javax.inject.Singleton
 
 /**
@@ -33,5 +30,5 @@ class AppModule(val app: Application) {
 
 //    @Provides
 //    @Singleton
-//    fun provideSearchViewModelFactory(factory: SearchViewModelFactory): ViewModelProvider.Factory = factory
+//    fun provideSearchViewModelFactory(factory: CustomViewModelFactory): ViewModelProvider.Factory = factory
 }

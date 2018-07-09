@@ -10,7 +10,7 @@ import javax.inject.Singleton
  * Created by Titas on 7/9/2018.
  */
 @Singleton
-class SearchViewModelFactory @Inject constructor(private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>?): ViewModelProvider.Factory{
+class CustomViewModelFactory @Inject constructor(private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>?): ViewModelProvider.Factory{
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

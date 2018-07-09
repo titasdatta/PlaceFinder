@@ -15,8 +15,8 @@ import javax.inject.Singleton
  * Created by Titas on 7/6/2018.
  */
 @Singleton
-class PlacesRepository @Inject constructor(val placesService: PlacesService) {
-    val placesResponseData: MutableLiveData<ResponseWrapper> = MutableLiveData()
+class PlacesRepository @Inject constructor(private val placesService: PlacesService) {
+    private val placesResponseData: MutableLiveData<ResponseWrapper> = MutableLiveData()
 
     fun getNearbyPlacesFor(location: String, type: String) {
         val call: Call<PlacesResponse> = placesService.getNearbyPlaces(location, type)

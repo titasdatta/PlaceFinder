@@ -17,8 +17,6 @@ class SearchViewModel @Inject constructor(private val repository: SearchReposito
     }
 
     fun insertSearch(searchData: SearchData) {
-        AsyncTask.execute(Runnable {
-            repository.insertSearch(searchData)
-        })
+        repository.insertSearch(searchData)
     }
 }

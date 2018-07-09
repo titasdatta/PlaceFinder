@@ -2,6 +2,7 @@ package com.example.titas.placefinder.repository
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.os.AsyncTask
 import com.example.titas.placefinder.repository.dao.SearchDAO
 import com.example.titas.placefinder.repository.model.SearchData
 import javax.inject.Inject
@@ -16,6 +17,8 @@ class SearchRepository @Inject constructor(private val searchDAO: SearchDAO) {
     }
 
     fun insertSearch(searchData: SearchData){
-        searchDAO.insertSearch(searchData)
+        AsyncTask.execute {
+            searchDAO.insertSearch(searchData)
+        }
     }
 }

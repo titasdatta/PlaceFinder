@@ -4,7 +4,8 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.example.titas.placefinder.di.ViewModelKey
 import com.example.titas.placefinder.viewmodel.SearchViewModel
-import com.example.titas.placefinder.viewmodel.SearchViewModelFactory
+import com.example.titas.placefinder.viewmodel.CustomViewModelFactory
+import com.example.titas.placefinder.viewmodel.PlacesViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -21,5 +22,10 @@ abstract class ViewModelModule {
     internal abstract fun bindSearchViewModel(searchViewModel: SearchViewModel): ViewModel
 
     @Binds
-    internal abstract fun bindSearchViewModelFactory(factory: SearchViewModelFactory): ViewModelProvider.Factory
+    @IntoMap
+    @ViewModelKey(PlacesViewModel::class)
+    internal abstract fun bindPlacesViewModel(placesViewModel: PlacesViewModel): ViewModel
+
+    @Binds
+    internal abstract fun bindSearchViewModelFactory(factory: CustomViewModelFactory): ViewModelProvider.Factory
 }
