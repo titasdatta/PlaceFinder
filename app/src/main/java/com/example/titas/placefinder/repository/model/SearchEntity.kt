@@ -9,6 +9,6 @@ import android.arch.persistence.room.PrimaryKey
  */
 
 @Entity(tableName = "searchData")
-data class SearchData(@PrimaryKey(autoGenerate = true) var id: Long?,
+data class SearchData(@PrimaryKey(autoGenerate = true) var id: Long=0,
                       @ColumnInfo(name = "searchTitle") var searchTitle: String,
                       @ColumnInfo(name = "searchTime") var searchTime: Long)

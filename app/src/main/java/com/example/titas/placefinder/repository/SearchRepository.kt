@@ -9,7 +9,7 @@ import javax.inject.Inject
 /**
  * Created by Titas on 7/6/2018.
  */
-class SearchRepository @Inject constructor(val searchDAO: SearchDAO) {
+class SearchRepository @Inject constructor(private val searchDAO: SearchDAO) {
 
     fun getRecentSearches(): LiveData<List<SearchData>>{
         return searchDAO.getRecentSearches()

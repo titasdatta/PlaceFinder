@@ -39,7 +39,7 @@
             android:elevation="@dimen/padding_five"
             android:textColor="@color/white"
             android:fontFamily="@font/lato_bold"
-            tools:text="Search"
+            android:text="Search"
             android:textSize="@dimen/text_size_twenty"
             android:gravity="center"
             />
@@ -51,7 +51,8 @@
         android:id="@+id/searches_list_container"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_container">
+        app:layout_constraintTop_toBottomOf="@id/search_container"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/recent_searches_title"

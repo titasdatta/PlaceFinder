@@ -13,6 +13,10 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 class PlacesActivity : AppCompatActivity(), OnMapReadyCallback {
 
+    companion object {
+        val SEARCH_KEY = "SearchTitle";
+    }
+
     private lateinit var mMap: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
