@@ -27,6 +27,11 @@ ext {
     archRoomVersion = "1.0.0"
     archLifecycleVersion = "1.1.0"
     retrofitVersion = "2.1.0"
+    junit_version = '4.12'
+    core_testing_version = '1.0.0'
+    mockito_version = '2.11.0'
+    runner_version = '1.0.1'
+    okhttp_version = '3.9.0'
 }
 
 task clean(type: Delete) {
