@@ -2,11 +2,13 @@ package com.example.titas.placefinder.di.component
 
 import android.app.Activity
 import android.app.Application
+import android.app.Fragment
 import com.example.titas.placefinder.di.modules.AppModule
 import com.example.titas.placefinder.di.modules.BuildersModule
 import com.example.titas.placefinder.di.modules.NetModule
 import com.example.titas.placefinder.di.modules.ViewModelModule
 import com.example.titas.placefinder.view.PlacesActivity
+import com.example.titas.placefinder.view.PlacesListFragment
 import com.example.titas.placefinder.view.SearchActivity
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -23,4 +25,5 @@ interface AppComponent {
     fun inject(app: Application)
     fun inject(activity: SearchActivity)
     fun inject(activity: PlacesActivity)
+    fun inject(fragment: PlacesListFragment)
 }

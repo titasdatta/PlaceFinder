@@ -15,6 +15,8 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import com.example.titas.placefinder.R
 import com.example.titas.placefinder.common.Constants.Companion.LOCATION_REFRESH_DISTANCE
@@ -31,20 +33,20 @@ import com.google.android.gms.maps.model.MarkerOptions
 import java.lang.Exception
 import javax.inject.Inject
 
-class PlacesActivity : AppCompatActivity(), OnMapReadyCallback {
+class PlacesActivity : AppCompatActivity() {
 
     companion object {
-        val SEARCH_KEY = "SearchTitle";
+        const val SEARCH_KEY = "SearchTitle";
     }
 
-    private lateinit var mMap: GoogleMap
     @Inject lateinit var placesViewModelFactory: ViewModelProvider.Factory
-    private lateinit var placesViewModel: PlacesViewModel
+    lateinit var placesViewModel: PlacesViewModel
     private lateinit var placesResponseLiveData: LiveData<ResponseWrapper>
     private lateinit var searchCategory: String
+    private lateinit var mapFragment: PlacesMapFragment
     private var location: Location? = null
 
-    val locationManager: LocationManager by lazy {
+    private val locationManager: LocationManager by lazy {
         getSystemService(Context.LOCATION_SERVICE) as LocationManager
     }
 
@@ -71,69 +73,27 @@ class PlacesActivity : AppCompatActivity(), OnMapReadyCallback {
         searchCategory = intent.getStringExtra(SEARCH_KEY);
         setTitle("${searchCategory}s near you")
 
-        placesViewModel = ViewModelProviders.of(this, placesViewModelFactory)[PlacesViewModel::class.java]
-
-        placesResponseLiveData = placesViewModel.getPlacesListObservable()
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-    }
+        mapFragment = PlacesMapFragment.newInstance()
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
+        supportFragmentManager.beginTransaction().add(R.id.container, mapFragment).commit()
+        supportFragmentManager.executePendingTransactions()
 
-        initialiseMap()
-
-        placesResponseLiveData.observe(this, object : Observer<ResponseWrapper> {
-            override fun onChanged(response: ResponseWrapper?) {
-                response?.let {
-                    if(response.status == ResponseWrapper.Status.OK){
-                        drawPlacesOnMapFor(response.placesList)
-                    } else {
-                        Toast.makeText(this@PlacesActivity, "Places API call failed", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-
-        })
-    }
-
-    private fun initialiseMap(){
-        val uiSettings = mMap.uiSettings
-        uiSettings.isMyLocationButtonEnabled = false
-        uiSettings.setAllGesturesEnabled(true)
-        uiSettings.isZoomControlsEnabled = false
-
-        MapsInitializer.initialize(this)
-
-        //TODO: Move map to current location first
-        location?.let {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.latitude, it.longitude), 15.0f))
-            mMap.isMyLocationEnabled = true
-        }
+        placesViewModel = ViewModelProviders.of(this, placesViewModelFactory)[PlacesViewModel::class.java]
+//        mapFragment.getMapAsync(this)
     }
 
     private fun fetchNearbyPlacesFor(location: Location){
         this.location = location
         val locationString = "${location.latitude},${location.longitude}"
         placesViewModel.searchNearbyPlacesFor(locationString, searchCategory)
-        locationManager.removeUpdates(locationListener)
-        locationListener = null
+        if(locationListener != null) {
+            locationManager.removeUpdates(locationListener)
+        }
     }
 
 
-    private fun setupLocationManager(){
+    fun setupLocationManager(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED){
             if(locationManager != null) {
@@ -143,6 +103,7 @@ class PlacesActivity : AppCompatActivity(), OnMapReadyCallback {
             try {
                 val location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
                 if(location != null){
+                    mapFragment.updateMapForCurrentLocation(location = location)
                     fetchNearbyPlacesFor(location)
                 }
             }catch (e: Exception){
@@ -169,25 +130,30 @@ class PlacesActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        setupLocationManager()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_places, menu)
+        return true
     }
 
-    private fun drawPlacesOnMapFor(placesList: ArrayList<Place>){
-        mMap.clear()
-        placesList.forEach {
-            val markerOptions = MarkerOptions()
-            val latLng = LatLng(it.geometry.location.lat, it.geometry.location.lng)
-            markerOptions.position(latLng)
-            markerOptions.title(it.name)
-            markerOptions.snippet(it.address)
-            mMap.addMarker(markerOptions)
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if(item?.itemId == R.id.toggle){
+            toggleFragment(item)
         }
+        return super.onOptionsItemSelected(item)
     }
 
-    override fun onStop() {
-        super.onStop()
-        placesResponseLiveData.removeObservers(this)
+    private fun toggleFragment(item: MenuItem){
+        if(item.title.toString().equals("list", ignoreCase = true)){
+            item.title = "map"
+            item.icon = resources.getDrawable(R.drawable.ic_map_placeholder)
+            supportFragmentManager.beginTransaction().replace(R.id.container, PlacesListFragment.newInstance())
+                    .commit()
+        }else {
+            item.title = "list"
+            item.icon = resources.getDrawable(R.drawable.ic_list)
+            supportFragmentManager.beginTransaction().replace(R.id.container, mapFragment)
+                    .commit()
+        }
+        supportFragmentManager.executePendingTransactions()
     }
 }
