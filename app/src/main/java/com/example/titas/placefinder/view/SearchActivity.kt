@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.example.titas.placefinder.R
@@ -73,5 +75,19 @@ class SearchActivity : AppCompatActivity() {
             searchListAdapter?.updateSearchList(searchList)
         }
         searches_list.adapter = searchListAdapter
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_favorite, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if(item?.itemId == R.id.favorite){
+            val intent = Intent(this@SearchActivity, PlacesActivity::class.java);
+            intent.putExtra(PlacesActivity.FAVORITE_VIEW, true)
+            startActivity(intent)
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

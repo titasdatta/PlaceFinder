@@ -17,10 +17,10 @@
 
         <LinearLayout
             android:id="@+id/details_container"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="0.8">
+            android:layout_weight="0.9">
 
             <TextView
                 android:id="@+id/title"
@@ -73,12 +73,14 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/btn_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/favorite_image_size"
+            android:layout_height="@dimen/favorite_image_size"
             tools:src="@drawable/icn_search"
+            android:tag="favorite"
             app:srcCompat="@drawable/ic_favorite_empty"
-            android:layout_weight="0.2"
-            android:layout_gravity="center_vertical"/>
+            android:layout_weight="0.1"
+            android:layout_gravity="center_vertical"
+            android:padding="@dimen/padding_five"/>
     </LinearLayout>
 
 </layout>

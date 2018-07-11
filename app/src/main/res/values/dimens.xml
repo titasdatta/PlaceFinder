@@ -8,4 +8,5 @@
     <dimen name="text_size_sixteen">16sp</dimen>
     <dimen name="text_size_eighteen">18sp</dimen>
     <dimen name="padding_fifty">50dp</dimen>
+    <dimen name="favorite_image_size">30dp</dimen>
 </resources>

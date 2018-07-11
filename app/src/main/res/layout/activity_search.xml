@@ -12,7 +12,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="@dimen/padding_fifteen"
-        android:background="@color/dark_grey">
+        android:background="@color/dark_grey"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <EditText
             android:id="@+id/search_bar"

@@ -37,6 +37,7 @@ class PlacesActivity : AppCompatActivity() {
 
     companion object {
         const val SEARCH_KEY = "SearchTitle";
+        const val FAVORITE_VIEW = "FavoritesView"
     }
 
     @Inject lateinit var placesViewModelFactory: ViewModelProvider.Factory
@@ -45,6 +46,7 @@ class PlacesActivity : AppCompatActivity() {
     private lateinit var searchCategory: String
     private lateinit var mapFragment: PlacesMapFragment
     private var location: Location? = null
+    private var isFavoriteView: Boolean = false
 
     private val locationManager: LocationManager by lazy {
         getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -53,7 +55,9 @@ class PlacesActivity : AppCompatActivity() {
     private var locationListener: LocationListener? = object : LocationListener{
         override fun onLocationChanged(location: Location?) {
             if(location != null){
-                fetchNearbyPlacesFor(location)
+                if(!isFavoriteView) {
+                    fetchNearbyPlacesFor(location)
+                }
             }
         }
 
@@ -70,11 +74,17 @@ class PlacesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_places)
         //get the search category
-        searchCategory = intent.getStringExtra(SEARCH_KEY);
-        setTitle("${searchCategory}s near you")
+        isFavoriteView = intent.getBooleanExtra(FAVORITE_VIEW, false)
+
+        if(!isFavoriteView) {
+            searchCategory = intent.getStringExtra(SEARCH_KEY)
+            setTitle("${searchCategory}s near you")
+        } else {
+            setTitle("Favorite Places")
+        }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        mapFragment = PlacesMapFragment.newInstance()
+        mapFragment = PlacesMapFragment.newInstance(isFavoriteView)
 
         supportFragmentManager.beginTransaction().add(R.id.container, mapFragment).commit()
         supportFragmentManager.executePendingTransactions()
@@ -104,7 +114,9 @@ class PlacesActivity : AppCompatActivity() {
                 val location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
                 if(location != null){
                     mapFragment.updateMapForCurrentLocation(location = location)
-                    fetchNearbyPlacesFor(location)
+                    if(!isFavoriteView) {
+                        fetchNearbyPlacesFor(location)
+                    }
                 }
             }catch (e: Exception){
                 Log.d("PlacesActivity", "Error fetching last location:${e.message}")
@@ -146,7 +158,7 @@ class PlacesActivity : AppCompatActivity() {
         if(item.title.toString().equals("list", ignoreCase = true)){
             item.title = "map"
             item.icon = resources.getDrawable(R.drawable.ic_map_placeholder)
-            supportFragmentManager.beginTransaction().replace(R.id.container, PlacesListFragment.newInstance())
+            supportFragmentManager.beginTransaction().replace(R.id.container, PlacesListFragment.newInstance(isFavoriteView))
                     .commit()
         }else {
             item.title = "list"
@@ -156,4 +168,5 @@ class PlacesActivity : AppCompatActivity() {
         }
         supportFragmentManager.executePendingTransactions()
     }
+
 }
