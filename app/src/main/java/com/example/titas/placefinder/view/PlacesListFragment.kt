@@ -32,8 +32,8 @@ class PlacesListFragment : Fragment(), FavoriteListener {
         return rootView
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         init()
     }
 
@@ -87,7 +87,7 @@ class PlacesListFragment : Fragment(), FavoriteListener {
         if(isFavoriteView){
             (placesList as ArrayList).remove(place)
             adapter.notifyItemRemoved(position)
-            adapter.notifyItemRangeChanged(position, adapter.itemCount)
+//            adapter.notifyItemRangeChanged(position, adapter.itemCount)
         }
     }
 

@@ -20,13 +20,23 @@ class PlacesViewModel @Inject constructor(private val placesRepository: PlacesRe
     }
 
     fun searchNearbyPlacesFor(location: String, category: String){
-        placesRepository.getNearbyPlacesFor(location, category.toLowerCase())
+        var categoryString: String = ""
+        if(category.split(" ").isNotEmpty()){
+            val categoryWords = category.split(" ")
+            categoryString = categoryWords[0]
+            for (i in 1..categoryWords.size-1){
+                categoryString += "_${categoryWords[i]}"
+            }
+        } else {
+            categoryString = category
+        }
+        placesRepository.getNearbyPlacesFor(location, categoryString.toLowerCase())
     }
 
     private fun convertSavedPlaceList(savedPlaceList: List<SavedPlace>): List<Place>{
         val listOfPlace = ArrayList<Place>()
         savedPlaceList.forEach {
-            val place = Place(it.name, Geometry(Location(it.latitude, it.longitude)), OpeningHours(it.isOpen),
+            val place = Place(it.name, Geometry(Location(it.latitude, it.longitude)), OpeningHours(it.isOpen ?: false),
                     it.rating, it.address)
             listOfPlace.add(place)
         }
@@ -43,14 +53,14 @@ class PlacesViewModel @Inject constructor(private val placesRepository: PlacesRe
 
     fun favoritePlace(place: Place) {
         val savedPlace = SavedPlace(name = place.name, address = place.address,
-                isOpen = place.openingHours.isOpen, rating = place.rating, latitude = place.geometry.location.lat,
+                isOpen = place.openingHours?.isOpen, rating = place.rating, latitude = place.geometry.location.lat,
                 longitude = place.geometry.location.lng)
         favoritesRepository.favoritePlace(savedPlace)
     }
 
     fun unfavoritePlace(place: Place) {
         val savedPlace = SavedPlace(name = place.name, address = place.address,
-                isOpen = place.openingHours.isOpen, rating = place.rating, latitude = place.geometry.location.lat,
+                isOpen = place.openingHours?.isOpen, rating = place.rating, latitude = place.geometry.location.lat,
                 longitude = place.geometry.location.lng)
         favoritesRepository.unfavoritePlace(savedPlace)
     }

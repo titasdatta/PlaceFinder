@@ -2,6 +2,7 @@ package com.example.titas.placefinder.repository
 
 import android.arch.lifecycle.LiveData
 import android.os.AsyncTask
+import com.example.titas.placefinder.common.runOnIoThread
 import com.example.titas.placefinder.repository.dao.FavoritesDAO
 import com.example.titas.placefinder.repository.model.SavedPlace
 import javax.inject.Inject
@@ -16,13 +17,13 @@ class FavoritesRepository @Inject constructor(private val favoritesDAO: Favorite
     fun getFavoritesList(): LiveData<List<SavedPlace>> = favoritesDAO.getSavedPlaces()
 
     fun favoritePlace(savedPlace: SavedPlace) {
-        AsyncTask.execute {
+        runOnIoThread {
             favoritesDAO.insertPlace(savedPlace)
         }
     }
 
     fun unfavoritePlace(savedPlace: SavedPlace) {
-        AsyncTask.execute {
+        runOnIoThread {
             favoritesDAO.removePlace(savedPlace.name)
         }
     }

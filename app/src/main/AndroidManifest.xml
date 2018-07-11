@@ -21,7 +21,8 @@
         android:theme="@style/AppTheme">
         <uses-library android:name="com.google.android.maps" />
 
-        <activity android:name=".view.SearchActivity">
+        <activity android:name=".view.SearchActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

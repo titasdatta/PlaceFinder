@@ -17,7 +17,7 @@ data class SearchData(@PrimaryKey(autoGenerate = true) var id: Long=0,
 data class SavedPlace(@PrimaryKey(autoGenerate = true) var id: Long=0,
                       @ColumnInfo(name = "name") var name: String,
                       @ColumnInfo(name = "address") var address: String,
-                      @ColumnInfo(name = "isOpen") var isOpen: Boolean,
+                      @ColumnInfo(name = "isOpen") var isOpen: Boolean?,
                       @ColumnInfo(name = "rating") var rating: Double,
                       @ColumnInfo(name = "latitude") var latitude: Double,
                       @ColumnInfo(name = "longitude") var longitude: Double)

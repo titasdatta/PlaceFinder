@@ -15,7 +15,7 @@ data class OpeningHours(@SerializedName("open_now") val isOpen: Boolean)
 
 data class Place(@SerializedName("name") val name: String,
                  @SerializedName("geometry") val geometry: Geometry,
-                 @SerializedName("opening_hours") val openingHours: OpeningHours,
+                 @SerializedName("opening_hours") val openingHours: OpeningHours?,
                  @SerializedName("rating") val rating: Double,
                  @SerializedName("vicinity") val address: String)
 
