@@ -136,8 +136,10 @@ class PlacesActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun setupLocationManager(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED){
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                    LOCATION_REFRESH_TIME, LOCATION_REFRESH_DISTANCE, locationListener)
+            if(locationManager != null) {
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                        LOCATION_REFRESH_TIME, LOCATION_REFRESH_DISTANCE, locationListener)
+            }
             try {
                 val location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
                 if(location != null){

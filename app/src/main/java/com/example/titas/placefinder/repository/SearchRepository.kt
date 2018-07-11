@@ -18,7 +18,11 @@ class SearchRepository @Inject constructor(private val searchDAO: SearchDAO) {
 
     fun insertSearch(searchData: SearchData){
         AsyncTask.execute {
-            searchDAO.insertSearch(searchData)
+            if(searchDAO.getSingleSearchRecord(searchData.searchTitle) == null) {
+                searchDAO.insertSearch(searchData)
+            } else {
+                searchDAO.updateSearch(searchData.searchTitle, searchData.searchTime)
+            }
         }
     }
 }

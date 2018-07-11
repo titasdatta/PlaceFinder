@@ -14,7 +14,7 @@ import javax.inject.Inject
 /**
  * Created by Titas on 7/9/2018.
  */
-class SearchListAdapter @Inject constructor(private val searchList: List<SearchData>):
+class SearchListAdapter @Inject constructor(private var searchList: List<SearchData>):
         RecyclerView.Adapter<SearchListAdapter.SearchListViewHolder>() {
 
     override fun onBindViewHolder(holder: SearchListViewHolder?, position: Int) {
@@ -38,5 +38,10 @@ class SearchListAdapter @Inject constructor(private val searchList: List<SearchD
                 view.context.startActivity(intent)
             }
         }
+    }
+
+    fun updateSearchList(searchList: List<SearchData>) {
+        this.searchList = searchList
+        notifyDataSetChanged()
     }
 }

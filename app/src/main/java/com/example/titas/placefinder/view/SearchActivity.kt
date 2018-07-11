@@ -52,6 +52,7 @@ class SearchActivity : AppCompatActivity() {
 
         btn_search.setOnClickListener {
             val searchTitle = search_bar.text.toString()
+            search_bar.setText("")
             if(!TextUtils.isEmpty(searchTitle)){
                 searchViewModel.insertSearch(SearchData(searchTitle = searchTitle,searchTime = System.currentTimeMillis()))
 
@@ -68,6 +69,8 @@ class SearchActivity : AppCompatActivity() {
         searches_list_container.visibility = View.VISIBLE
         if(searchListAdapter == null){
             searchListAdapter = SearchListAdapter(searchList)
+        } else {
+            searchListAdapter?.updateSearchList(searchList)
         }
         searches_list.adapter = searchListAdapter
     }
