@@ -7,4 +7,6 @@
     <color name="dark_grey">#FF444444</color>
     <color name="white">#FFFFFFFF</color>
     <color name="faded_grey">#40444444</color>
+    <color name="red">#E53935</color>
+    <color name="green">#43A047</color>
 </resources>

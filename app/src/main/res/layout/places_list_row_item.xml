@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="place"
+            type="com.example.titas.placefinder.repository.model.Place"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_ten">
+
+        <LinearLayout
+            android:id="@+id/details_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="0.8">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_black"
+                android:text="@{place.name}"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/text_size_twenty"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Government Health Center" />
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_regular"
+                android:text="@{place.address}"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/text_size_sixteen"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                tools:text="No.93, HAL Airport Road, Konen Agrahara, Near Rajeshwari" />
+
+            <TextView
+                android:id="@+id/currently_open"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_regular"
+                android:text="@{place.openingHours.isOpen ? @string/places_list_open_now : @string/places_list_closed_now}"
+                android:textColor="@{place.openingHours.isOpen ? @color/green : @color/red}"
+                android:textSize="@dimen/text_size_sixteen"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/address"
+                tools:text="Open Now"
+                tools:textColor="@color/red" />
+
+            <TextView
+                android:id="@+id/rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_regular"
+                android:text="@{`Rating: `+Double.toString(place.rating)}"
+                android:textColor="@color/dark_grey"
+                tools:text="Rating: 4.2"
+                />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/btn_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:src="@drawable/icn_search"
+            app:srcCompat="@drawable/ic_favorite_empty"
+            android:layout_weight="0.2"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+</layout>
